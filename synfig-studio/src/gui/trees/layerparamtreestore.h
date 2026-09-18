@@ -145,7 +145,7 @@ public:
 
 	void queue_rebuild();
 
-	void refresh_row(Gtk::TreeModel::Row &row);
+	void refresh_row(Gtk::TreeModel::Row &row, bool do_children=true);
 
 	//! \brief Search for a value descriptor on the parameter tree.
 	//! On success get the node reference of the synfigapp::ValueDesc on the tree

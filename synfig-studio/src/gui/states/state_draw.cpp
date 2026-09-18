@@ -1973,11 +1973,19 @@ StateDraw_Context::new_region(std::list<synfig::BLinePoint> bline, synfig::Real 
 			next=vertex_list.begin();
 			iter=next++; // Set iter to the first value desc, and next to the second
 
+			#if _DEBUG
 			int current = 0;
-			for ( ; iter != vertex_list.end(); prev = iter++, ++next, ++current) {
+			#endif
+			for ( ; iter != vertex_list.end(); prev = iter++, ++next
+				#if _DEBUG
+					, ++current
+				#endif
+			) {
 				// we need to be able to erase(next) and can't do that if next is end()
 				if (next == vertex_list.end()) next = vertex_list.begin();
+				#if _DEBUG
 				debug_show_vertex_list(i, vertex_list, "in loop around vertices", current);
+				#endif
 				synfigapp::ValueDesc value_prev(*prev);
 				synfigapp::ValueDesc value_desc(*iter);
 				synfigapp::ValueDesc value_next(*next);

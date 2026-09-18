@@ -36,6 +36,10 @@
 
 /* === M A C R O S ========================================================= */
 
+#ifdef _
+#undef _
+#endif
+
 #ifdef ENABLE_NLS
 #define _(x) gettext(x)
 #define gettext_noop(x) x

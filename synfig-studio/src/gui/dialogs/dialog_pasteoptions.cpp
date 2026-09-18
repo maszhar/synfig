@@ -38,14 +38,14 @@
 using namespace synfig;
 using namespace studio;
 
-static ValueNode::LooseHandle find_valuenode_by_id(const std::vector<ValueNode::LooseHandle>& list, std::string id)
-{
-	auto has_same_id = [id](ValueNode::LooseHandle vn) -> bool { return vn->get_id() == id; };
-	auto viter = std::find_if(list.begin(), list.end(), has_same_id);
-	if (viter == list.end())
-		return nullptr;
-	return *viter;
-}
+// static ValueNode::LooseHandle find_valuenode_by_id(const std::vector<ValueNode::LooseHandle>& list, std::string id)
+// {
+// 	auto has_same_id = [id](ValueNode::LooseHandle vn) -> bool { return vn->get_id() == id; };
+// 	auto viter = std::find_if(list.begin(), list.end(), has_same_id);
+// 	if (viter == list.end())
+// 		return nullptr;
+// 	return *viter;
+// }
 
 Dialog_PasteOptions::Dialog_PasteOptions(Gtk::Dialog::BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade)
 	: Gtk::Dialog(cobject),

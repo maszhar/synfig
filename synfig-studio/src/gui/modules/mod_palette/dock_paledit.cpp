@@ -463,7 +463,7 @@ Dock_PalEdit::add_from_clipboard()
 }
 
 void
-Dock_PalEdit::copy_color(int i)
+Dock_PalEdit::copy_color(std::size_t i)
 {
 	if (i < 0 || i >= palette_.size()) {
 		synfig::error(_("Trying to get hex code from an invalid index for the palette: %i"), i);
@@ -760,7 +760,7 @@ Dock_PalEdit::open_dialog_rename_color(int i, String& new_name)
 
 
 	const int DIALOG_ENTRY_MARGIN = 18;
-	const int GRID_COL_SPACING = 6;
+	// const int GRID_COL_SPACING = 6;
 
 	Gtk::Label* label = manage (new Gtk::Label(_("New color name")));
 	// label->set_margin_start(DIALOG_ENTRY_MARGIN);

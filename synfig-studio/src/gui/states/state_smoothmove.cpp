@@ -292,8 +292,8 @@ DuckDrag_SmoothMove::begin_duck_drag(Duckmatic* duckmatic, const synfig::Vector&
 	positions.clear();
 	const DuckList selected_ducks(duckmatic->get_selected_ducks());
 	DuckList::const_iterator iter;
-	int i;
-	for(i=0,iter=selected_ducks.begin();iter!=selected_ducks.end();++iter,i++)
+	// int i;
+	for(iter=selected_ducks.begin();iter!=selected_ducks.end();++iter)
 	{
 		last_.push_back(Vector(0,0));
 		positions.push_back((*iter)->get_trans_point());

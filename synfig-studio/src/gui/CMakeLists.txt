@@ -36,6 +36,10 @@ else()
 	add_executable(synfigstudio main.cpp)
 endif()
 
+set_target_properties(synfigstudio PROPERTIES
+	COMPILE_WARNING_AS_ERROR ON
+)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 target_sources(synfigstudio

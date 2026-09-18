@@ -312,8 +312,8 @@ DuckDrag_Mirror::begin_duck_drag(Duckmatic* duckmatic, const synfig::Vector& /*o
 	DuckList::const_iterator iter;
 
 	positions.clear();
-	int i;
-	for(i=0,iter=selected_ducks.begin();iter!=selected_ducks.end();++iter,i++)
+	// int i;
+	for(iter=selected_ducks.begin();iter!=selected_ducks.end();++iter)
 	{
 		Point p((*iter)->get_trans_point());
 		positions.push_back(p);

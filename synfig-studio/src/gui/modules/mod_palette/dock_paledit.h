@@ -78,7 +78,7 @@ private:
 	static Dock_PalEdit* instance;
 	bool check_hex_format(const std::string& hexcolor);
 	void add_from_clipboard();
-	void copy_color(int i);
+	void copy_color(std::size_t i);
 	void set_color(synfig::Color x, int i);
 	void erase_color(int i);
 

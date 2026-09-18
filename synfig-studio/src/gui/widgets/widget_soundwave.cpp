@@ -306,7 +306,7 @@ bool Widget_SoundWave::do_load(const synfig::filesystem::Path& filename)
 		// Not seekable!
 		synfig::error("Audio file not seekable, but a delay (%s) was set: %s", sound_delay.get_string(time_plot_data->time_model->get_frame_rate()).c_str(), filename.c_str());
 	}
-	unsigned char *outbuffer = nullptr;
+	// unsigned char *outbuffer = nullptr;
 	int bytes_written = 0;
 
 	frequency = 0;
@@ -338,8 +338,8 @@ bool Widget_SoundWave::do_load(const synfig::filesystem::Path& filename)
 			buffer.resize(buffer_length);
 		}
 		int _n_bytes = _n_samples * _channels * bytes_per_sample;
-		if (bytes_written + _n_bytes > buffer.size()) {
-			if (buffer.size() <= bytes_written) {
+		if (static_cast<size_t>(bytes_written + _n_bytes) > buffer.size()) {
+			if (buffer.size() <= static_cast<size_t>(bytes_written)) {
 				synfig::error(_("Internal error: Widget_SoundWave: trying to read more bytes than buffer size: %i x %zu"), _n_bytes + bytes_written, buffer.size());
 				break;
 			}
@@ -347,7 +347,7 @@ bool Widget_SoundWave::do_load(const synfig::filesystem::Path& filename)
 		}
 		std::copy(static_cast<unsigned char*>(_buffer), static_cast<unsigned char*>(_buffer) + _n_bytes, buffer.begin() + bytes_written);
 		bytes_written += _n_bytes;
-		outbuffer += _n_bytes;
+		// outbuffer += _n_bytes;
 		frequency = _frequency;
 		n_channels = _channels;
 		n_samples += _n_samples;

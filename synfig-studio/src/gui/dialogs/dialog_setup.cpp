@@ -93,9 +93,9 @@ Dialog_Setup::Dialog_Setup(Gtk::Window& parent):
 	adj_pref_x_size(Gtk::Adjustment::create(480,1,10000,1,10,0)),
 	adj_pref_y_size(Gtk::Adjustment::create(270,1,10000,1,10,0)),
 	adj_pref_fps(Gtk::Adjustment::create(24.0,1.0,100,0.1,1,0)),
-	adj_number_of_threads(Gtk::Adjustment::create(App::number_of_threads,2,std::thread::hardware_concurrency(),1,10,0)),
 	adj_preview_quality(Gtk::Adjustment::create(0.5,0.1,5.0,0.1,0.2,0)),
 	adj_preview_fps(Gtk::Adjustment::create(12,1,120,1,5,0)),
+	adj_number_of_threads(Gtk::Adjustment::create(App::number_of_threads,2,std::thread::hardware_concurrency(),1,10,0)),
 	pref_modification_flag(false),
 	refreshing(false)
 {
@@ -1086,7 +1086,7 @@ Dialog_Setup::on_apply_pressed()
 
 		Glib::RefPtr<Gtk::ListStore> liststore = Glib::RefPtr<Gtk::ListStore>::cast_dynamic(
 			listviewtext_brushes_path->get_model());
-		for (const Gtk::TreeRow row : liststore->children()) {
+		for (const Gtk::TreeRow &row : liststore->children()) {
 			// TODO utf_8 path : care to other locale than english ?
 			synfig::String path((row[prefs_brushpath.path]));
 			input_settings.set_value(strprintf("brush.path_%d", path_count++), path);

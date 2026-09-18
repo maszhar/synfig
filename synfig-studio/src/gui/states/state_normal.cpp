@@ -361,8 +361,8 @@ DuckDrag_Combo::begin_duck_drag(Duckmatic* duckmatic, const synfig::Vector& offs
 	Point vmax(-100000000,-100000000);
 	//std::set<Duck::Handle>::iterator iter;
 	positions.clear();
-	int i;
-	for(i=0,iter=selected_ducks.begin();iter!=selected_ducks.end();++iter,i++)
+	// int i;
+	for(iter=selected_ducks.begin();iter!=selected_ducks.end();++iter)
 	{
 		Point p((*iter)->get_trans_point());
 		vmin[0]=std::min(vmin[0],p[0]);

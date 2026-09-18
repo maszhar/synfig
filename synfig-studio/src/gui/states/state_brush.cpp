@@ -29,10 +29,10 @@
 /* === H E A D E R S ======================================================= */
 
 #ifdef USING_PCH
-#	include "pch.h"
+#include "pch.h"
 #else
 #ifdef HAVE_CONFIG_H
-#	include <config.h>
+#include <config.h>
 #endif
 
 #include "state_brush.h"
@@ -70,7 +70,7 @@ using namespace synfig;
 /* === M A C R O S ========================================================= */
 
 #ifndef BRUSH_ICON_SIZE
-#	define BRUSH_ICON_SIZE 48
+#define BRUSH_ICON_SIZE 48
 #endif
 
 /* === G L O B A L S ======================================================= */
@@ -85,44 +85,48 @@ static std::map<filesystem::Path, std::map<int, float>> custom_settings;
 class studio::StateBrush_Context : public sigc::trackable
 {
 public:
-	class BrushConfig {
+	class BrushConfig
+	{
 	public:
-		struct MapEntry {
+		struct MapEntry
+		{
 			float x, y;
-			MapEntry(): x(0.f), y(0.f) { }
+			MapEntry() : x(0.f), y(0.f) {}
 		};
 
-		struct InputEntry {
+		struct InputEntry
+		{
 			int input;
 			std::vector<MapEntry> mapping;
-			InputEntry(): input(0) { }
+			InputEntry() : input(0) {}
 		};
 
-		struct Entry {
+		struct Entry
+		{
 			float base;
 			std::vector<InputEntry> inputs;
-			Entry(): base(0.f) { }
+			Entry() : base(0.f) {}
 		};
 
 		filesystem::Path filename;
 		Entry settings[BRUSH_SETTINGS_COUNT];
 
 		void clear();
-		void load(const filesystem::Path& filename);
-		void apply(brushlib::Brush& brush);
+		void load(const filesystem::Path &filename);
+		void apply(brushlib::Brush &brush);
 
 	private:
-		static const char* const setting_names[BRUSH_SETTINGS_COUNT];
-		static const char* const input_names[INPUT_COUNT];
+		static const char *const setting_names[BRUSH_SETTINGS_COUNT];
+		static const char *const input_names[INPUT_COUNT];
 
-		bool read_row(const char** pos);
-		void skip_spaces(const char** pos);
-		bool skip_to_next_line(const char** pos);
-		bool read_key(const char** pos, const char* key);
-		bool read_word(const char** pos, String& out_value);
-		bool read_float(const char** pos, float& out_value);
-		bool read_input_entry(const char** pos, InputEntry& out_value);
-		bool read_map_entry(const char** pos, MapEntry& out_value);
+		bool read_row(const char **pos);
+		void skip_spaces(const char **pos);
+		bool skip_to_next_line(const char **pos);
+		bool read_key(const char **pos, const char *key);
+		bool read_word(const char **pos, String &out_value);
+		bool read_float(const char **pos, float &out_value);
+		bool read_input_entry(const char **pos, InputEntry &out_value);
+		bool read_map_entry(const char **pos, MapEntry &out_value);
 	};
 
 private:
@@ -137,15 +141,15 @@ private:
 	Layer_Bitmap::Handle layer;
 
 	TransformStack transform_stack;
-	static bool build_transform_stack(Canvas::Handle canvas, Layer::Handle layer, CanvasView::Handle canvas_view, TransformStack& transform_stack);
+	static bool build_transform_stack(Canvas::Handle canvas, Layer::Handle layer, CanvasView::Handle canvas_view, TransformStack &transform_stack);
 
 	BrushConfig selected_brush_config;
 	BrushConfig original_brush_config;
 
-	std::map<int, Gtk::Scale*> setting_controls;
-	Gtk::ToggleToolButton* selected_brush_button;
-	std::map<filesystem::Path, Gtk::ToggleToolButton*> brush_buttons;
-	synfigapp::Settings& settings;
+	std::map<int, Gtk::Scale *> setting_controls;
+	Gtk::ToggleToolButton *selected_brush_button;
+	std::map<filesystem::Path, Gtk::ToggleToolButton *> brush_buttons;
+	synfigapp::Settings &settings;
 	Gtk::CheckButton eraser_checkbox;
 
 	void update_cursor();
@@ -153,36 +157,36 @@ private:
 
 	void load_settings();
 	void save_settings();
-	bool scan_directory(const filesystem::Path& path, int scan_sub_levels, std::set<filesystem::Path>& out_files);
-	void select_brush(Gtk::ToggleToolButton* button, const filesystem::Path& filename);
+	bool scan_directory(const filesystem::Path &path, int scan_sub_levels, std::set<filesystem::Path> &out_files);
+	void select_brush(Gtk::ToggleToolButton *button, const filesystem::Path &filename);
 
 public:
-	explicit StateBrush_Context(CanvasView* canvas_view);
+	explicit StateBrush_Context(CanvasView *canvas_view);
 	~StateBrush_Context();
 
 	void refresh_tool_options();
-	Smach::event_result event_refresh_tool_options(const Smach::event& x);
+	Smach::event_result event_refresh_tool_options(const Smach::event &x);
 	void create_image_layer_dialog();
 
 	void update_overlay_preview();
 	void clear_overlay_preview();
 
-	void create_brushes_tab(Gtk::Notebook* notebook);
-	void create_settings_tab(Gtk::Notebook* notebook);
+	void create_brushes_tab(Gtk::Notebook *notebook);
+	void create_settings_tab(Gtk::Notebook *notebook);
 
-	void draw_to(const Vector& pos, Real pressure);
+	void draw_to(const Vector &pos, Real pressure);
 	Layer_Bitmap::Handle find_or_create_layer();
 
-	const CanvasView::Handle& get_canvas_view() const { return canvas_view; }
+	const CanvasView::Handle &get_canvas_view() const { return canvas_view; }
 	etl::handle<synfigapp::CanvasInterface> get_canvas_interface() const { return canvas_view->canvas_interface(); }
 	synfig::Canvas::Handle get_canvas() const { return canvas_view->get_canvas(); }
-	WorkArea* get_work_area() const { return canvas_view->get_work_area();}
+	WorkArea *get_work_area() const { return canvas_view->get_work_area(); }
 
-	Smach::event_result event_mouse_down_handler(const Smach::event& x);
-	Smach::event_result event_mouse_up_handler(const Smach::event& x);
-	Smach::event_result event_mouse_draw_handler(const Smach::event& x);
-	Smach::event_result event_stop_handler(const Smach::event& x);
-};	// END of class StateBrush_Context
+	Smach::event_result event_mouse_down_handler(const Smach::event &x);
+	Smach::event_result event_mouse_up_handler(const Smach::event &x);
+	Smach::event_result event_mouse_draw_handler(const Smach::event &x);
+	Smach::event_result event_stop_handler(const Smach::event &x);
+}; // END of class StateBrush_Context
 
 /* === P R O C E D U R E S ================================================= */
 
@@ -193,10 +197,13 @@ create_bitmap_layer_above_layer(etl::handle<synfigapp::CanvasInterface> canvas_i
 	Layer::Handle selected_layer = canvas_interface->get_selection_manager()->get_selected_layer();
 	Canvas::Handle canvas;
 	int depth;
-	if (selected_layer.empty()) {
+	if (selected_layer.empty())
+	{
 		canvas = canvas_interface->get_canvas();
 		depth = 0;
-	} else {
+	}
+	else
+	{
 		canvas = selected_layer->get_canvas();
 		depth = selected_layer->get_depth();
 	}
@@ -206,103 +213,100 @@ create_bitmap_layer_above_layer(etl::handle<synfigapp::CanvasInterface> canvas_i
 
 /* === M E T H O D S ======================================================= */
 
-const char* const StateBrush_Context::BrushConfig::setting_names[] = {
-	"opaque",                      // BRUSH_OPAQUE                       0
-	"opaque_multiply",             // BRUSH_OPAQUE_MULTIPLY              1
-	"opaque_linearize",            // BRUSH_OPAQUE_LINEARIZE             2
-	"radius_logarithmic",          // BRUSH_RADIUS_LOGARITHMIC           3
-	"hardness",                    // BRUSH_HARDNESS                     4
-	"anti_aliasing",               // BRUSH_ANTI_ALIASING                5
-	"dabs_per_basic_radius",       // BRUSH_DABS_PER_BASIC_RADIUS        6
-	"dabs_per_actual_radius",      // BRUSH_DABS_PER_ACTUAL_RADIUS       7
-	"dabs_per_second",             // BRUSH_DABS_PER_SECOND              8
-	"radius_by_random",            // BRUSH_RADIUS_BY_RANDOM             9
-	"speed1_slowness",             // BRUSH_SPEED1_SLOWNESS             10
-	"speed2_slowness",             // BRUSH_SPEED2_SLOWNESS             11
-	"speed1_gamma",                // BRUSH_SPEED1_GAMMA                12
-	"speed2_gamma",                // BRUSH_SPEED2_GAMMA                13
-	"offset_by_random",            // BRUSH_OFFSET_BY_RANDOM            14
-	"offset_by_speed",             // BRUSH_OFFSET_BY_SPEED             15
-	"offset_by_speed_slowness",    // BRUSH_OFFSET_BY_SPEED_SLOWNESS    16
-	"slow_tracking",               // BRUSH_SLOW_TRACKING               17
-	"slow_tracking_per_dab",       // BRUSH_SLOW_TRACKING_PER_DAB       18
-	"tracking_noise",              // BRUSH_TRACKING_NOISE              19
-	"color_h",                     // BRUSH_COLOR_H                     20
-	"color_s",                     // BRUSH_COLOR_S                     21
-	"color_v",                     // BRUSH_COLOR_V                     22
-	"restore_color",               // BRUSH_RESTORE_COLOR               23
-	"change_color_h",              // BRUSH_CHANGE_COLOR_H              24
-	"change_color_l",              // BRUSH_CHANGE_COLOR_L              25
-	"change_color_hsl_s",          // BRUSH_CHANGE_COLOR_HSL_S          26
-	"change_color_v",              // BRUSH_CHANGE_COLOR_V              27
-	"change_color_hsv_s",          // BRUSH_CHANGE_COLOR_HSV_S          28
-	"smudge",                      // BRUSH_SMUDGE                      29
-	"smudge_length",               // BRUSH_SMUDGE_LENGTH               30
-	"smudge_radius_log",           // BRUSH_SMUDGE_RADIUS_LOG           31
-	"eraser",                      // BRUSH_ERASER                      32
-	"stroke_treshold",             // BRUSH_STROKE_THRESHOLD            33
-	"stroke_duration_logarithmic", // BRUSH_STROKE_DURATION_LOGARITHMIC 34
-	"stroke_holdtime",             // BRUSH_STROKE_HOLDTIME             35
-	"custom_input",                // BRUSH_CUSTOM_INPUT                36
-	"custom_input_slowness",       // BRUSH_CUSTOM_INPUT_SLOWNESS       37
-	"elliptical_dab_ratio",        // BRUSH_ELLIPTICAL_DAB_RATIO        38
-	"elliptical_dab_angle",        // BRUSH_ELLIPTICAL_DAB_ANGLE        39
-	"direction_filter",            // BRUSH_DIRECTION_FILTER            40
-	"lock_alpha"                   // BRUSH_LOCK_ALPHA                  41
+const char *const StateBrush_Context::BrushConfig::setting_names[] = {
+		"opaque",											 // BRUSH_OPAQUE                       0
+		"opaque_multiply",						 // BRUSH_OPAQUE_MULTIPLY              1
+		"opaque_linearize",						 // BRUSH_OPAQUE_LINEARIZE             2
+		"radius_logarithmic",					 // BRUSH_RADIUS_LOGARITHMIC           3
+		"hardness",										 // BRUSH_HARDNESS                     4
+		"anti_aliasing",							 // BRUSH_ANTI_ALIASING                5
+		"dabs_per_basic_radius",			 // BRUSH_DABS_PER_BASIC_RADIUS        6
+		"dabs_per_actual_radius",			 // BRUSH_DABS_PER_ACTUAL_RADIUS       7
+		"dabs_per_second",						 // BRUSH_DABS_PER_SECOND              8
+		"radius_by_random",						 // BRUSH_RADIUS_BY_RANDOM             9
+		"speed1_slowness",						 // BRUSH_SPEED1_SLOWNESS             10
+		"speed2_slowness",						 // BRUSH_SPEED2_SLOWNESS             11
+		"speed1_gamma",								 // BRUSH_SPEED1_GAMMA                12
+		"speed2_gamma",								 // BRUSH_SPEED2_GAMMA                13
+		"offset_by_random",						 // BRUSH_OFFSET_BY_RANDOM            14
+		"offset_by_speed",						 // BRUSH_OFFSET_BY_SPEED             15
+		"offset_by_speed_slowness",		 // BRUSH_OFFSET_BY_SPEED_SLOWNESS    16
+		"slow_tracking",							 // BRUSH_SLOW_TRACKING               17
+		"slow_tracking_per_dab",			 // BRUSH_SLOW_TRACKING_PER_DAB       18
+		"tracking_noise",							 // BRUSH_TRACKING_NOISE              19
+		"color_h",										 // BRUSH_COLOR_H                     20
+		"color_s",										 // BRUSH_COLOR_S                     21
+		"color_v",										 // BRUSH_COLOR_V                     22
+		"restore_color",							 // BRUSH_RESTORE_COLOR               23
+		"change_color_h",							 // BRUSH_CHANGE_COLOR_H              24
+		"change_color_l",							 // BRUSH_CHANGE_COLOR_L              25
+		"change_color_hsl_s",					 // BRUSH_CHANGE_COLOR_HSL_S          26
+		"change_color_v",							 // BRUSH_CHANGE_COLOR_V              27
+		"change_color_hsv_s",					 // BRUSH_CHANGE_COLOR_HSV_S          28
+		"smudge",											 // BRUSH_SMUDGE                      29
+		"smudge_length",							 // BRUSH_SMUDGE_LENGTH               30
+		"smudge_radius_log",					 // BRUSH_SMUDGE_RADIUS_LOG           31
+		"eraser",											 // BRUSH_ERASER                      32
+		"stroke_treshold",						 // BRUSH_STROKE_THRESHOLD            33
+		"stroke_duration_logarithmic", // BRUSH_STROKE_DURATION_LOGARITHMIC 34
+		"stroke_holdtime",						 // BRUSH_STROKE_HOLDTIME             35
+		"custom_input",								 // BRUSH_CUSTOM_INPUT                36
+		"custom_input_slowness",			 // BRUSH_CUSTOM_INPUT_SLOWNESS       37
+		"elliptical_dab_ratio",				 // BRUSH_ELLIPTICAL_DAB_RATIO        38
+		"elliptical_dab_angle",				 // BRUSH_ELLIPTICAL_DAB_ANGLE        39
+		"direction_filter",						 // BRUSH_DIRECTION_FILTER            40
+		"lock_alpha"									 // BRUSH_LOCK_ALPHA                  41
 };
 
-const char* const StateBrush_Context::BrushConfig::input_names[] = {
-	"pressure",                    // INPUT_PRESSURE                     0
-	"speed1",                      // INPUT_SPEED1                       1
-	"speed2",                      // INPUT_SPEED2                       2
-	"random",                      // INPUT_RANDOM                       3
-	"stroke",                      // INPUT_STROKE                       4
-	"direction",                   // INPUT_DIRECTION                    5
-	"tilt_declination",            // INPUT_TILT_DECLINATION             6
-	"tilt_ascension",              // INPUT_TILT_ASCENSION               7
-	"custom",                      // INPUT_CUSTOM                       8
+const char *const StateBrush_Context::BrushConfig::input_names[] = {
+		"pressure",					// INPUT_PRESSURE                     0
+		"speed1",						// INPUT_SPEED1                       1
+		"speed2",						// INPUT_SPEED2                       2
+		"random",						// INPUT_RANDOM                       3
+		"stroke",						// INPUT_STROKE                       4
+		"direction",				// INPUT_DIRECTION                    5
+		"tilt_declination", // INPUT_TILT_DECLINATION             6
+		"tilt_ascension",		// INPUT_TILT_ASCENSION               7
+		"custom",						// INPUT_CUSTOM                       8
 };
 
-StateBrush::StateBrush() :
-	Smach::state<StateBrush_Context>("brush", N_("Brush Tool"))
+StateBrush::StateBrush() : Smach::state<StateBrush_Context>("brush", N_("Brush Tool"))
 {
 	insert(event_def(EVENT_WORKAREA_MOUSE_BUTTON_DOWN, &StateBrush_Context::event_mouse_down_handler));
-	insert(event_def(EVENT_WORKAREA_MOUSE_BUTTON_UP,   &StateBrush_Context::event_mouse_up_handler));
+	insert(event_def(EVENT_WORKAREA_MOUSE_BUTTON_UP, &StateBrush_Context::event_mouse_up_handler));
 	insert(event_def(EVENT_WORKAREA_MOUSE_BUTTON_DRAG, &StateBrush_Context::event_mouse_draw_handler));
-	insert(event_def(EVENT_STOP,                       &StateBrush_Context::event_stop_handler));
-	insert(event_def(EVENT_REFRESH_TOOL_OPTIONS,       &StateBrush_Context::event_refresh_tool_options));
+	insert(event_def(EVENT_STOP, &StateBrush_Context::event_stop_handler));
+	insert(event_def(EVENT_REFRESH_TOOL_OPTIONS, &StateBrush_Context::event_refresh_tool_options));
 }
 
 StateBrush::~StateBrush()
 {
 }
 
-void*
-StateBrush::enter_state(studio::CanvasView* machine_context) const
+void *
+StateBrush::enter_state(studio::CanvasView *machine_context) const
 {
 	return new StateBrush_Context(machine_context);
 }
 
-void
-StateBrush_Context::BrushConfig::clear()
+void StateBrush_Context::BrushConfig::clear()
 {
 	filename.clear();
-	for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i) {
+	for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i)
+	{
 		settings[i].base = 0;
 		settings[i].inputs.clear();
 	}
 }
 
-void
-StateBrush_Context::BrushConfig::skip_spaces(const char** pos)
+void StateBrush_Context::BrushConfig::skip_spaces(const char **pos)
 {
 	// Skip whitespace characters
 	while (**pos == ' ' || **pos == '\t' || **pos == '\v')
 		++(*pos);
 }
 
-bool
-StateBrush_Context::BrushConfig::skip_to_next_line(const char** pos)
+bool StateBrush_Context::BrushConfig::skip_to_next_line(const char **pos)
 {
 	// Advance pointer to the end of the line
 	while (**pos != 0 && **pos != '\n' && **pos != '\r')
@@ -316,13 +320,13 @@ StateBrush_Context::BrushConfig::skip_to_next_line(const char** pos)
 	return true;
 }
 
-bool
-StateBrush_Context::BrushConfig::read_key(const char** pos, const char* key)
+bool StateBrush_Context::BrushConfig::read_key(const char **pos, const char *key)
 {
 	skip_spaces(pos);
 	// Check if the current position matches the given key string
 	size_t l = strlen(key);
-	if (strncmp(*pos, key, l) == 0) {
+	if (strncmp(*pos, key, l) == 0)
+	{
 		*pos += l;
 		skip_spaces(pos);
 		return true;
@@ -330,8 +334,7 @@ StateBrush_Context::BrushConfig::read_key(const char** pos, const char* key)
 	return false;
 }
 
-bool
-StateBrush_Context::BrushConfig::read_word(const char** pos, String& out_value)
+bool StateBrush_Context::BrushConfig::read_word(const char **pos, String &out_value)
 {
 	skip_spaces(pos);
 	// Read a word (a-z or '_') from the current position
@@ -339,7 +342,8 @@ StateBrush_Context::BrushConfig::read_word(const char** pos, String& out_value)
 	const char *p = *pos;
 	while ((*p >= 'a' && *p <= 'z') || *p == '_')
 		++p;
-	if (p > *pos) {
+	if (p > *pos)
+	{
 		out_value.assign(*pos, p);
 		*pos = p;
 		skip_spaces(pos);
@@ -348,8 +352,7 @@ StateBrush_Context::BrushConfig::read_word(const char** pos, String& out_value)
 	return false;
 }
 
-bool
-StateBrush_Context::BrushConfig::read_float(const char** pos, float& out_value)
+bool StateBrush_Context::BrushConfig::read_float(const char **pos, float &out_value)
 {
 	skip_spaces(pos);
 	// Parse a floating point number from the current position
@@ -357,18 +360,20 @@ StateBrush_Context::BrushConfig::read_float(const char** pos, float& out_value)
 
 	const char *p = *pos;
 	bool negative = *p == '-';
-	if (negative) ++p;
+	if (negative)
+		++p;
 	const char *num_start = p;
 	while (*p >= '0' && *p <= '9')
-		out_value = 10.f*out_value + (float)(*(p++) - '0');
+		out_value = 10.f * out_value + (float)(*(p++) - '0');
 	if (p <= num_start)
 		return false;
 
-	if (*p == '.') {
+	if (*p == '.')
+	{
 		++p;
 		float amplifier = 1.f;
 		while (*p >= '0' && *p <= '9')
-			out_value += (amplifier *= 0.1f)*(float)(*(p++) - '0');
+			out_value += (amplifier *= 0.1f) * (float)(*(p++) - '0');
 	}
 
 	if (negative)
@@ -378,19 +383,16 @@ StateBrush_Context::BrushConfig::read_float(const char** pos, float& out_value)
 	return true;
 }
 
-bool
-StateBrush_Context::BrushConfig::read_map_entry(const char** pos, MapEntry& out_value)
+bool StateBrush_Context::BrushConfig::read_map_entry(const char **pos, MapEntry &out_value)
 {
 	skip_spaces(pos);
 	// Parse a mapping entry in the form (x y)
 	out_value.x = 0.f;
 	out_value.y = 0.f;
 	const char *p = *pos;
-	bool success = read_key(&p, "(")
-				   && read_float(&p, out_value.x)
-				   && read_float(&p, out_value.y)
-				   && read_key(&p, ")");
-	if (success) {
+	bool success = read_key(&p, "(") && read_float(&p, out_value.x) && read_float(&p, out_value.y) && read_key(&p, ")");
+	if (success)
+	{
 		*pos = p;
 		skip_spaces(pos);
 		return true;
@@ -400,8 +402,7 @@ StateBrush_Context::BrushConfig::read_map_entry(const char** pos, MapEntry& out_
 	return false;
 }
 
-bool
-StateBrush_Context::BrushConfig::read_input_entry(const char** pos, InputEntry& out_value)
+bool StateBrush_Context::BrushConfig::read_input_entry(const char **pos, InputEntry &out_value)
 {
 	skip_spaces(pos);
 	// Parse a row in the brush config file, mapping settings and input entries
@@ -410,16 +411,21 @@ StateBrush_Context::BrushConfig::read_input_entry(const char** pos, InputEntry& 
 
 	const char *p = *pos;
 	String word;
-	if (read_word(&p, word)) {
-		for (int i = 0; i < INPUT_COUNT; ++i) {
-			if (word == input_names[i]) {
+	if (read_word(&p, word))
+	{
+		for (int i = 0; i < INPUT_COUNT; ++i)
+		{
+			if (word == input_names[i])
+			{
 				MapEntry entry;
 				const char *pp = p;
-				while ((out_value.mapping.empty() || read_key(&pp, ",")) && read_map_entry(&pp, entry)) {
+				while ((out_value.mapping.empty() || read_key(&pp, ",")) && read_map_entry(&pp, entry))
+				{
 					out_value.mapping.push_back(entry);
 					p = pp;
 				}
-				if (out_value.mapping.size() > 1) {
+				if (out_value.mapping.size() > 1)
+				{
 					out_value.input = i;
 					*pos = p;
 					skip_spaces(pos);
@@ -433,20 +439,24 @@ StateBrush_Context::BrushConfig::read_input_entry(const char** pos, InputEntry& 
 	return false;
 }
 
-bool
-StateBrush_Context::BrushConfig::read_row(const char** pos)
+bool StateBrush_Context::BrushConfig::read_row(const char **pos)
 {
 	skip_spaces(pos);
 	// Parse a row in the brush config file, mapping settings and input entries
 	const char *p = *pos;
 	String word;
-	if (read_word(&p, word)) {
-		for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i) {
-			if (word == setting_names[i]) {
-				if (read_float(&p, settings[i].base)) {
+	if (read_word(&p, word))
+	{
+		for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i)
+		{
+			if (word == setting_names[i])
+			{
+				if (read_float(&p, settings[i].base))
+				{
 					InputEntry entry;
 					const char *pp = p;
-					while (read_key(&pp, "|") && read_input_entry(&pp, entry)) {
+					while (read_key(&pp, "|") && read_input_entry(&pp, entry))
+					{
 						settings[i].inputs.push_back(entry);
 						p = pp;
 					}
@@ -460,26 +470,28 @@ StateBrush_Context::BrushConfig::read_row(const char** pos)
 	return skip_to_next_line(pos);
 }
 
-void
-StateBrush_Context::BrushConfig::load(const filesystem::Path& filename)
+void StateBrush_Context::BrushConfig::load(const filesystem::Path &filename)
 {
 	// Load brush configuration from file and parse settings
 	clear();
 
-	char* buffer = nullptr;
-	try {
+	char *buffer = nullptr;
+	try
+	{
 		Glib::RefPtr<Gio::File> file = Gio::File::create_for_path(filename.u8string());
 		goffset s = file->query_info()->get_size();
 		if (s < 0)
 			return;
-		size_t size = s > INT_MAX-1 ? INT_MAX-1 : (size_t)s;
-		buffer = new char[size+1];
-		memset(buffer, 0, size+1);
+		size_t size = s > INT_MAX - 1 ? INT_MAX - 1 : (size_t)s;
+		buffer = new char[size + 1];
+		memset(buffer, 0, size + 1);
 
 		Glib::RefPtr<Gio::FileInputStream> stream = file->read();
 		stream->read(buffer, size);
 		stream->close();
-	} catch (...) {
+	}
+	catch (...)
+	{
 		synfig::error(_("Error on loading brush config file: %s"), filename.c_str());
 		delete[] buffer;
 		this->filename = {};
@@ -487,13 +499,18 @@ StateBrush_Context::BrushConfig::load(const filesystem::Path& filename)
 	}
 
 	const char *pos = buffer;
-	if (pos) {
+	if (pos)
+	{
 		skip_spaces(&pos);
-		if (*pos == '{') {
+		if (*pos == '{')
+		{
 			synfig::error(_("Brush: version not supported for %s (only versions 1 and 2 are supported)"), filename.c_str());
-		} else {
+		}
+		else
+		{
 			while (read_row(&pos))
-			{ }
+			{
+			}
 		}
 	}
 	if (buffer)
@@ -501,15 +518,16 @@ StateBrush_Context::BrushConfig::load(const filesystem::Path& filename)
 	this->filename = filename;
 }
 
-void
-StateBrush_Context::BrushConfig::apply(brushlib::Brush& brush)
+void StateBrush_Context::BrushConfig::apply(brushlib::Brush &brush)
 {
 	// Apply all loaded settings and input mappings to the brush instance
-	for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i) {
+	for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i)
+	{
 		brush.set_base_value(i, settings[i].base);
 		for (int j = 0; j < INPUT_COUNT; ++j)
 			brush.set_mapping_n(i, j, 0);
-		for (std::vector<InputEntry>::const_iterator j = settings[i].inputs.begin(); j != settings[i].inputs.end(); ++j) {
+		for (std::vector<InputEntry>::const_iterator j = settings[i].inputs.begin(); j != settings[i].inputs.end(); ++j)
+		{
 			brush.set_mapping_n(i, j->input, (int)j->mapping.size());
 			for (std::vector<MapEntry>::const_iterator k = j->mapping.begin(); k != j->mapping.end(); ++k)
 				brush.set_mapping_point(i, j->input, (int)(k - j->mapping.begin()), k->x, k->y);
@@ -517,44 +535,52 @@ StateBrush_Context::BrushConfig::apply(brushlib::Brush& brush)
 	}
 }
 
-void
-StateBrush_Context::load_settings()
+void StateBrush_Context::load_settings()
 {
-	try {
+	try
+	{
 		int brush_path_count = settings.get_value("brush.path_count", 0);
-		if (brush_path_count > 0) {
+		if (brush_path_count > 0)
+		{
 			String value;
 			App::brushes_path.clear();
 			for (int i = 0; i < brush_path_count; ++i)
-				if (settings.get_raw_value(strprintf("brush.path_%d", i),value))
+				if (settings.get_raw_value(strprintf("brush.path_%d", i), value))
 					App::brushes_path.insert(value);
-		} else {
+		}
+		else
+		{
 			if (App::brushes_path.empty())
 				App::brushes_path.insert(ResourceHelper::get_brush_path());
 		}
 
 		eraser_checkbox.set_active(settings.get_value("brush.eraser", false));
-	} catch(...) {
+	}
+	catch (...)
+	{
 		warning("State Brush: Caught exception when attempting to load settings.");
 	}
 }
 
-void
-StateBrush_Context::save_settings()
+void StateBrush_Context::save_settings()
 {
-	try {
+	try
+	{
 		settings.set_value("brush.path_count", (int)App::brushes_path.size());
 		int j = 0;
-		for (const auto& path : App::brushes_path)
+		for (const auto &path : App::brushes_path)
 			settings.set_value(strprintf("brush.path_%d", j++), path);
 
 		settings.set_value("brush.selected_brush_filename", selected_brush_config.filename);
 		settings.set_value("brush.eraser", eraser_checkbox.get_active());
 
-		if (!selected_brush_config.filename.empty()) {
+		if (!selected_brush_config.filename.empty())
+		{
 			std::map<int, float> custom;
-			for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i) {
-				if (fabs(selected_brush_config.settings[i].base - original_brush_config.settings[i].base) > 1e-6f) {
+			for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i)
+			{
+				if (fabs(selected_brush_config.settings[i].base - original_brush_config.settings[i].base) > 1e-6f)
+				{
 					custom[i] = selected_brush_config.settings[i].base;
 				}
 			}
@@ -564,19 +590,20 @@ StateBrush_Context::save_settings()
 			else
 				custom_settings.erase(selected_brush_config.filename);
 		}
-	} catch(...) {
+	}
+	catch (...)
+	{
 		warning("State Brush: Caught exception when attempting to save settings.");
 	}
 }
 
-StateBrush_Context::StateBrush_Context(CanvasView* canvas_view) :
-	canvas_view(canvas_view),
-	push_state(*get_work_area()),
-	action(nullptr),
-	selected_brush_button(nullptr),
-	settings(synfigapp::Main::get_selected_input_device()->settings()),
-	eraser_checkbox(_("Eraser")),
-	layer(nullptr)
+StateBrush_Context::StateBrush_Context(CanvasView *canvas_view) : canvas_view(canvas_view),
+																																	push_state(*get_work_area()),
+																																	action(nullptr),
+																																	layer(nullptr),
+																																	selected_brush_button(nullptr),
+																																	settings(synfigapp::Main::get_selected_input_device()->settings()),
+																																	eraser_checkbox(_("Eraser"))
 {
 	load_settings();
 	App::dialog_tool_options->present();
@@ -602,8 +629,7 @@ StateBrush_Context::~StateBrush_Context()
 	App::dock_toolbox->refresh();
 }
 
-bool
-StateBrush_Context::scan_directory(const filesystem::Path& path, int scan_sub_levels, std::set<filesystem::Path>& out_files)
+bool StateBrush_Context::scan_directory(const filesystem::Path &path, int scan_sub_levels, std::set<filesystem::Path> &out_files)
 {
 	if (scan_sub_levels < 0)
 		return false;
@@ -611,19 +637,22 @@ StateBrush_Context::scan_directory(const filesystem::Path& path, int scan_sub_le
 	FileSystem::FileList file_list;
 	FileSystemNative::instance()->directory_scan(path.u8string(), file_list);
 
-	for (const auto& file : file_list) {
+	for (const auto &file : file_list)
+	{
 		const auto full_filepath = path / file;
-		if (FileSystemNative::instance()->is_directory(full_filepath.u8string())) {
+		if (FileSystemNative::instance()->is_directory(full_filepath.u8string()))
+		{
 			scan_directory(full_filepath, scan_sub_levels - 1, out_files);
-		} else if (FileSystemNative::instance()->is_file(full_filepath.u8string())) {
+		}
+		else if (FileSystemNative::instance()->is_file(full_filepath.u8string()))
+		{
 			out_files.insert(full_filepath);
 		}
 	}
 	return true;
 }
 
-void
-StateBrush_Context::refresh_tool_options()
+void StateBrush_Context::refresh_tool_options()
 {
 	brush_buttons.clear();
 	setting_controls.clear();
@@ -642,58 +671,60 @@ StateBrush_Context::refresh_tool_options()
 	App::dialog_tool_options->add(*notebook);
 }
 
-void
-StateBrush_Context::create_brushes_tab(Gtk::Notebook* notebook)
+void StateBrush_Context::create_brushes_tab(Gtk::Notebook *notebook)
 {
 	// create the brush options container
-	Gtk::Grid* brush_option_grid = Gtk::manage(new Gtk::Grid());
+	Gtk::Grid *brush_option_grid = Gtk::manage(new Gtk::Grid());
 	brush_option_grid->set_orientation(Gtk::ORIENTATION_VERTICAL);
 
 	// add options
 	brush_option_grid->add(eraser_checkbox);
 
 	// connect eraser checkbox signal to update brush
-	eraser_checkbox.signal_toggled().connect([this]() {
+	eraser_checkbox.signal_toggled().connect([this]()
+																					 {
 		if (selected_brush_button && !selected_brush_config.filename.empty()) {
 			selected_brush_config.settings[BRUSH_ERASER].base = eraser_checkbox.get_active() ? 1.0 : 0.0;
 			if (action) {
 				selected_brush_config.apply(action->stroke.brush());
 			}
-		}
-	});
+		} });
 
 	// create brushes scrollable palette
-	Gtk::ToolItemGroup* tool_item_group = manage(new class Gtk::ToolItemGroup());
+	Gtk::ToolItemGroup *tool_item_group = manage(new class Gtk::ToolItemGroup());
 	gtk_tool_item_group_set_label(tool_item_group->gobj(), nullptr);
 
-	Gtk::ToolPalette* palette = manage(new Gtk::ToolPalette());
+	Gtk::ToolPalette *palette = manage(new Gtk::ToolPalette());
 	palette->add(*tool_item_group);
 	palette->set_expand(*tool_item_group);
 	palette->set_exclusive(*tool_item_group, true);
 	palette->set_icon_size(Gtk::IconSize(BRUSH_ICON_SIZE));
 	palette->add_events(Gdk::SCROLL_MASK);
 
-	Gtk::ScrolledWindow* brushes_scroll = manage(new Gtk::ScrolledWindow());
+	Gtk::ScrolledWindow *brushes_scroll = manage(new Gtk::ScrolledWindow());
 	brushes_scroll->set_hexpand(true);
 	brushes_scroll->set_vexpand(true);
 	brushes_scroll->add(*palette);
 
 	// load brushes files definition
 	std::set<filesystem::Path> files;
-	for (const auto& path : App::brushes_path)
+	for (const auto &path : App::brushes_path)
 		scan_directory(path.u8string(), 1, files);
 
 	String last_brush_filename = settings.get_value("brush.selected_brush_filename", String());
-	Gtk::ToggleToolButton* active_button = nullptr;
+	Gtk::ToggleToolButton *active_button = nullptr;
 	filesystem::Path active_filename;
 
-	for (const auto& filename : files) {
-		if (!brush_buttons.count(filename) && filename.extension().u8string() == ".myb") {
-			const filesystem::Path& brush_file = filename;
+	for (const auto &filename : files)
+	{
+		if (!brush_buttons.count(filename) && filename.extension().u8string() == ".myb")
+		{
+			const filesystem::Path &brush_file = filename;
 			const filesystem::Path icon_file = filesystem::Path(brush_file).replace_extension({".png"}).add_suffix("_prev");
-			if (files.count(icon_file)) {
+			if (files.count(icon_file))
+			{
 				// create a single brush button
-				Gtk::ToggleToolButton* brush_button = brush_buttons[brush_file] = (new Gtk::ToggleToolButton());
+				Gtk::ToggleToolButton *brush_button = brush_buttons[brush_file] = (new Gtk::ToggleToolButton());
 
 				Glib::RefPtr<Gdk::Pixbuf> pixbuf, pixbuf_scaled;
 				pixbuf = Gdk::Pixbuf::create_from_file(icon_file.u8string());
@@ -706,13 +737,14 @@ StateBrush_Context::create_brushes_tab(Gtk::Notebook* notebook)
 
 				// connect the button click event and brush file definition
 				brush_button->signal_clicked().connect(
-					sigc::bind(sigc::mem_fun(*this, &StateBrush_Context::select_brush), brush_button, brush_file) );
+						sigc::bind(sigc::mem_fun(*this, &StateBrush_Context::select_brush), brush_button, brush_file));
 
 				// add the button to the palette
 				tool_item_group->insert(*brush_button);
 
 				// select first overwrite if matches last used
-				if (!active_button || brush_file == last_brush_filename) {
+				if (!active_button || brush_file == last_brush_filename)
+				{
 					active_button = brush_button;
 					active_filename = brush_file;
 				}
@@ -722,25 +754,25 @@ StateBrush_Context::create_brushes_tab(Gtk::Notebook* notebook)
 	brush_option_grid->add(*brushes_scroll);
 
 	// add create image layer button
-	Gtk::Button* create_image_layer_btn = Gtk::manage(new Gtk::Button(_("Create image layer")));
+	Gtk::Button *create_image_layer_btn = Gtk::manage(new Gtk::Button(_("Create image layer")));
 	brush_option_grid->add(*create_image_layer_btn);
 	create_image_layer_btn->signal_clicked().connect(sigc::mem_fun(*this, &StateBrush_Context::create_image_layer_dialog));
 	brush_option_grid->show_all();
 
-	Gtk::Label* tab_label = Gtk::manage(new Gtk::Label(_("Brushes")));
+	Gtk::Label *tab_label = Gtk::manage(new Gtk::Label(_("Brushes")));
 	notebook->append_page(*brush_option_grid, *tab_label);
 
-	if (active_button) {
+	if (active_button)
+	{
 		select_brush(active_button, active_filename);
 		active_button->set_active(true);
 	}
 }
 
-void
-StateBrush_Context::create_settings_tab(Gtk::Notebook* notebook)
+void StateBrush_Context::create_settings_tab(Gtk::Notebook *notebook)
 {
 	// create settings scrollable container
-	Gtk::ScrolledWindow* settings_scroll = Gtk::manage(new Gtk::ScrolledWindow());
+	Gtk::ScrolledWindow *settings_scroll = Gtk::manage(new Gtk::ScrolledWindow());
 	settings_scroll->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	settings_scroll->set_hexpand(true);
 	settings_scroll->set_vexpand(true);
@@ -752,63 +784,64 @@ StateBrush_Context::create_settings_tab(Gtk::Notebook* notebook)
 	settings_grid->set_border_width(12);
 	settings_grid->set_row_homogeneous(true);
 
-	struct SettingInfo {
-		const char* display_name;
+	struct SettingInfo
+	{
+		const char *display_name;
 		float min_value;
 		float max_value;
-		const char* tooltip;
+		const char *tooltip;
 	};
 	const SettingInfo setting_info[BRUSH_SETTINGS_COUNT] = {
-		{"Opacity", 0.0f, 2.0f, "0 means brush is transparent, 1 fully visible\n(also known as alpha or opacity)"},
-		{"Opacity multiply", 0.0f, 2.0f, "This gets multiplied with opaque. You should only change the pressure input of this setting."},
-		{"Opacity linearize", 0.0f, 2.0f, "Correct the nonlinearity introduced by blending multiple dabs on top of each other."},
-		{"Radius", -2.0f, 5.0f, "Basic brush radius (logarithmic)\n 0.7 means 2 pixels\n 3.0 means 20 pixels"},
-		{"Hardness", 0.0f, 1.0f, "Hard brush-circle borders (setting to zero will draw nothing)."},
-		{"Anti-aliasing", 0.0f, 5.0f, "This setting decreases the hardness when necessary to prevent a pixel staircase effect."},
-		{"Dabs per basic radius", 0.0f, 6.0f, "How many dabs to draw while the pointer moves a distance of one brush radius"},
-		{"Dabs per actual radius", 0.0f, 6.0f, "Same as above, but the radius actually drawn is used, which can change dynamically"},
-		{"Dabs per second", 0.0f, 80.0f, "Dabs to draw each second, no matter how far the pointer moves"},
-		{"Radius by random", 0.0f, 1.5f, "Alter the radius randomly each dab."},
-		{"Fine speed filter", 0.0f, 0.2f, "How slow the input fine speed is following the real speed"},
-		{"Gross speed filter", 0.0f, 3.0f, "Same as 'fine speed filter', but note that the range is different"},
-		{"Fine speed gamma", -8.0f, 8.0f, "This changes the reaction of the 'fine speed' input to extreme physical speed."},
-		{"Gross speed gamma", -8.0f, 8.0f, "Same as 'fine speed gamma' for gross speed"},
-		{"Jitter", 0.0f, 25.0f, "Add a random offset to the position where each dab is drawn"},
-		{"Offset by speed", -3.0f, 3.0f, "Change position depending on pointer speed"},
-		{"Offset by speed filter", 0.0f, 15.0f, "How slow the offset goes back to zero when the cursor stops moving"},
-		{"Slow position tracking", 0.0f, 10.0f, "Slowdown pointer tracking speed. 0 disables it, higher values remove more jitter"},
-		{"Slow tracking per dab", 0.0f, 10.0f, "Similar as above but at brushdab level"},
-		{"Tracking noise", 0.0f, 12.0f, "Add randomness to the mouse pointer"},
-		{"Color hue", 0.0f, 1.0f, "Color hue"},
-		{"Color saturation", -0.5f, 1.5f, "Color saturation"},
-		{"Color value", -0.5f, 1.5f, "Color value (brightness, intensity)"},
-		{"Save color", 0.0f, 1.0f, "When selecting a brush, the color can be restored to the color that the brush was saved with."},
-		{"Change color hue", -2.0f, 2.0f, "Change color hue."},
-		{"Change color lightness (HSL)", -2.0f, 2.0f, "Change the color lightness (luminance) using the HSL color model."},
-		{"Change color satur. (HSL)", -2.0f, 2.0f, "Change the color saturation using the HSL color model."},
-		{"Change color value (HSV)", -2.0f, 2.0f, "Change the color value (brightness, intensity) using the HSV color model."},
-		{"Change color satur. (HSV)", -2.0f, 2.0f, "Change the color saturation using the HSV color model."},
-		{"Smudge", 0.0f, 1.0f, "Paint with the smudge color instead of the brush color."},
-		{"Smudge length", 0.0f, 1.0f, "This controls how fast the smudge color becomes the color you are painting on."},
-		{"Smudge radius", -1.6f, 1.6f, "This modifies the radius of the circle where color is picked up for smudging."},
-		{"Eraser", 0.0f, 1.0f, "How much this tool behaves like an eraser"},
-		{"Stroke threshold", 0.0f, 0.5f, "How much pressure is needed to start a stroke."},
-		{"Stroke duration", -1.0f, 7.0f, "How far you have to move until the stroke input reaches 1.0."},
-		{"Stroke hold time", 0.0f, 10.0f, "This defines how long the stroke input stays at 1.0."},
-		{"Custom input", -5.0f, 5.0f, "Set the custom input to this value."},
-		{"Custom input filter", 0.0f, 10.0f, "How slow the custom input actually follows the desired value."},
-		{"Elliptical dab: ratio", 1.0f, 10.0f, "Aspect ratio of the dabs; must be >= 1.0"},
-		{"Elliptical dab: angle", 0.0f, 180.0f, "Angle by which elliptical dabs are tilted"},
-		{"Direction filter", 0.0f, 10.0f, "A low value will make the direction input adapt more quickly"},
-		{"Lock alpha", 0.0f, 1.0f, "Do not modify the alpha channel of the layer"}
-	};
+			{"Opacity", 0.0f, 2.0f, "0 means brush is transparent, 1 fully visible\n(also known as alpha or opacity)"},
+			{"Opacity multiply", 0.0f, 2.0f, "This gets multiplied with opaque. You should only change the pressure input of this setting."},
+			{"Opacity linearize", 0.0f, 2.0f, "Correct the nonlinearity introduced by blending multiple dabs on top of each other."},
+			{"Radius", -2.0f, 5.0f, "Basic brush radius (logarithmic)\n 0.7 means 2 pixels\n 3.0 means 20 pixels"},
+			{"Hardness", 0.0f, 1.0f, "Hard brush-circle borders (setting to zero will draw nothing)."},
+			{"Anti-aliasing", 0.0f, 5.0f, "This setting decreases the hardness when necessary to prevent a pixel staircase effect."},
+			{"Dabs per basic radius", 0.0f, 6.0f, "How many dabs to draw while the pointer moves a distance of one brush radius"},
+			{"Dabs per actual radius", 0.0f, 6.0f, "Same as above, but the radius actually drawn is used, which can change dynamically"},
+			{"Dabs per second", 0.0f, 80.0f, "Dabs to draw each second, no matter how far the pointer moves"},
+			{"Radius by random", 0.0f, 1.5f, "Alter the radius randomly each dab."},
+			{"Fine speed filter", 0.0f, 0.2f, "How slow the input fine speed is following the real speed"},
+			{"Gross speed filter", 0.0f, 3.0f, "Same as 'fine speed filter', but note that the range is different"},
+			{"Fine speed gamma", -8.0f, 8.0f, "This changes the reaction of the 'fine speed' input to extreme physical speed."},
+			{"Gross speed gamma", -8.0f, 8.0f, "Same as 'fine speed gamma' for gross speed"},
+			{"Jitter", 0.0f, 25.0f, "Add a random offset to the position where each dab is drawn"},
+			{"Offset by speed", -3.0f, 3.0f, "Change position depending on pointer speed"},
+			{"Offset by speed filter", 0.0f, 15.0f, "How slow the offset goes back to zero when the cursor stops moving"},
+			{"Slow position tracking", 0.0f, 10.0f, "Slowdown pointer tracking speed. 0 disables it, higher values remove more jitter"},
+			{"Slow tracking per dab", 0.0f, 10.0f, "Similar as above but at brushdab level"},
+			{"Tracking noise", 0.0f, 12.0f, "Add randomness to the mouse pointer"},
+			{"Color hue", 0.0f, 1.0f, "Color hue"},
+			{"Color saturation", -0.5f, 1.5f, "Color saturation"},
+			{"Color value", -0.5f, 1.5f, "Color value (brightness, intensity)"},
+			{"Save color", 0.0f, 1.0f, "When selecting a brush, the color can be restored to the color that the brush was saved with."},
+			{"Change color hue", -2.0f, 2.0f, "Change color hue."},
+			{"Change color lightness (HSL)", -2.0f, 2.0f, "Change the color lightness (luminance) using the HSL color model."},
+			{"Change color satur. (HSL)", -2.0f, 2.0f, "Change the color saturation using the HSL color model."},
+			{"Change color value (HSV)", -2.0f, 2.0f, "Change the color value (brightness, intensity) using the HSV color model."},
+			{"Change color satur. (HSV)", -2.0f, 2.0f, "Change the color saturation using the HSV color model."},
+			{"Smudge", 0.0f, 1.0f, "Paint with the smudge color instead of the brush color."},
+			{"Smudge length", 0.0f, 1.0f, "This controls how fast the smudge color becomes the color you are painting on."},
+			{"Smudge radius", -1.6f, 1.6f, "This modifies the radius of the circle where color is picked up for smudging."},
+			{"Eraser", 0.0f, 1.0f, "How much this tool behaves like an eraser"},
+			{"Stroke threshold", 0.0f, 0.5f, "How much pressure is needed to start a stroke."},
+			{"Stroke duration", -1.0f, 7.0f, "How far you have to move until the stroke input reaches 1.0."},
+			{"Stroke hold time", 0.0f, 10.0f, "This defines how long the stroke input stays at 1.0."},
+			{"Custom input", -5.0f, 5.0f, "Set the custom input to this value."},
+			{"Custom input filter", 0.0f, 10.0f, "How slow the custom input actually follows the desired value."},
+			{"Elliptical dab: ratio", 1.0f, 10.0f, "Aspect ratio of the dabs; must be >= 1.0"},
+			{"Elliptical dab: angle", 0.0f, 180.0f, "Angle by which elliptical dabs are tilted"},
+			{"Direction filter", 0.0f, 10.0f, "A low value will make the direction input adapt more quickly"},
+			{"Lock alpha", 0.0f, 1.0f, "Do not modify the alpha channel of the layer"}};
 
 	// build rows
-	for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i) {
+	for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i)
+	{
 		// skip change color settings
 		if (i >= 24 && i <= 28)
 			continue;
-		const SettingInfo& info = setting_info[i];
+		const SettingInfo &info = setting_info[i];
 		Gtk::Box *row_box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL, 8));
 
 		// label
@@ -840,12 +873,14 @@ StateBrush_Context::create_settings_tab(Gtk::Notebook* notebook)
 		reset_btn->set_sensitive(false);
 		row_box->pack_start(*reset_btn, false, false, 0);
 
-		if (fabs(initial_value - original_brush_config.settings[i].base) > 1e-6f) {
+		if (fabs(initial_value - original_brush_config.settings[i].base) > 1e-6f)
+		{
 			reset_btn->set_label("↺");
 			reset_btn->set_sensitive(true);
 		}
 
-		slider->signal_value_changed().connect([this, i, slider, label, reset_btn]() {
+		slider->signal_value_changed().connect([this, i, slider, label, reset_btn]()
+																					 {
 			selected_brush_config.settings[i].base = slider->get_value();
 			if (action)
 				selected_brush_config.apply(action->stroke.brush());
@@ -863,40 +898,44 @@ StateBrush_Context::create_settings_tab(Gtk::Notebook* notebook)
 			} else {
 				reset_btn->set_label("-");
 				reset_btn->set_sensitive(false);
-			}
-		});
-		reset_btn->signal_clicked().connect([this, i, slider]() {
-			slider->set_value(original_brush_config.settings[i].base);
-		});
+			} });
+		reset_btn->signal_clicked().connect([this, i, slider]()
+																				{ slider->set_value(original_brush_config.settings[i].base); });
 		settings_grid->attach(*row_box, 0, i, 1, 1);
 	}
 	// add to tab
 	settings_scroll->add(*settings_grid);
-	Gtk::Label* tab_label = Gtk::manage(new Gtk::Label(_("Settings")));
+	Gtk::Label *tab_label = Gtk::manage(new Gtk::Label(_("Settings")));
 	notebook->append_page(*settings_scroll, *tab_label);
 	settings_scroll->show_all();
 }
 
-void
-StateBrush_Context::select_brush(Gtk::ToggleToolButton* button, const filesystem::Path& filename)
+void StateBrush_Context::select_brush(Gtk::ToggleToolButton *button, const filesystem::Path &filename)
 {
-	if (button && button->get_active()) {
+	if (button && button->get_active())
+	{
 		if (selected_brush_button)
 			selected_brush_button->set_active(false);
 
 		// save custom settings of the old brush
-		if (!selected_brush_config.filename.empty()) {
+		if (!selected_brush_config.filename.empty())
+		{
 			std::map<int, float> custom;
 			bool has_changes = false;
-			for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i) {
-				if (fabs(selected_brush_config.settings[i].base - original_brush_config.settings[i].base) > 1e-6f) {
+			for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i)
+			{
+				if (fabs(selected_brush_config.settings[i].base - original_brush_config.settings[i].base) > 1e-6f)
+				{
 					custom[i] = selected_brush_config.settings[i].base;
 					has_changes = true;
 				}
 			}
-			if (has_changes) {
+			if (has_changes)
+			{
 				custom_settings[selected_brush_config.filename] = custom;
-			} else {
+			}
+			else
+			{
 				custom_settings.erase(selected_brush_config.filename);
 			}
 		}
@@ -906,9 +945,11 @@ StateBrush_Context::select_brush(Gtk::ToggleToolButton* button, const filesystem
 		original_brush_config = selected_brush_config;
 
 		// apply saved custom settings to the new brush
-		if (custom_settings.count(filename)) {
+		if (custom_settings.count(filename))
+		{
 			const std::map<int, float> &overrides = custom_settings[filename];
-			for (const auto& override : overrides) {
+			for (const auto &override : overrides)
+			{
 				selected_brush_config.settings[override.first].base = override.second;
 			}
 		}
@@ -917,15 +958,18 @@ StateBrush_Context::select_brush(Gtk::ToggleToolButton* button, const filesystem
 		selected_brush_button = button;
 
 		Real brush_radius = expf(selected_brush_config.settings[BRUSH_RADIUS_LOGARITHMIC].base);
-		synfigapp::Main::set_bline_width(Distance(brush_radius*2, Distance::SYSTEM_PIXELS));
+		synfigapp::Main::set_bline_width(Distance(brush_radius * 2, Distance::SYSTEM_PIXELS));
 		update_cursor();
 
 		// apply brush settings to sliders
-		for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i) {
+		for (int i = 0; i < BRUSH_SETTINGS_COUNT; ++i)
+		{
 			auto it = setting_controls.find(i);
-			if (it != setting_controls.end()) {
-				Gtk::Scale* slider = it->second;
-				if (slider) {
+			if (it != setting_controls.end())
+			{
+				Gtk::Scale *slider = it->second;
+				if (slider)
+				{
 					slider->set_value(selected_brush_config.settings[i].base);
 				}
 			}
@@ -933,19 +977,20 @@ StateBrush_Context::select_brush(Gtk::ToggleToolButton* button, const filesystem
 	}
 }
 
-void
-StateBrush_Context::update_cursor()
+void StateBrush_Context::update_cursor()
 {
 	const float brush_radius_px = synfigapp::Main::get_bline_width() / 2.;
 	float display_radius = 10.0f;
 
-	if (layer && layer->rendering_surface) {
+	if (layer && layer->rendering_surface)
+	{
 		rendering::SurfaceResource::LockRead<rendering::SurfaceSW> lock(layer->rendering_surface);
-		if (lock && lock->get_surface().is_valid()) {
-			RendDesc& desc = get_canvas()->rend_desc();
+		if (lock && lock->get_surface().is_valid())
+		{
+			RendDesc &desc = get_canvas()->rend_desc();
 			Rect layer_bounds(
-				layer->get_param("tl").get(Point()),
-				layer->get_param("br").get(Point()));
+					layer->get_param("tl").get(Point()),
+					layer->get_param("br").get(Point()));
 			TransformStack stack;
 			build_transform_stack(get_canvas(), layer, get_canvas_view(), stack);
 			Rect transformed_bounds = stack.perform(layer_bounds);
@@ -958,7 +1003,9 @@ StateBrush_Context::update_cursor()
 			float scale_view = get_work_area()->get_zoom() * get_work_area()->get_scale_factor();
 			display_radius = fabs(brush_radius_px * scale_layer * scale_canvas * scale_view);
 		}
-	} else {
+	}
+	else
+	{
 		// if we don't have a layer use work area dimensions
 		float scale_view = get_work_area()->get_zoom() * get_work_area()->get_scale_factor();
 		display_radius = fabs(brush_radius_px * scale_view);
@@ -966,10 +1013,10 @@ StateBrush_Context::update_cursor()
 	create_radius_cursor(display_radius);
 }
 
-void
-StateBrush_Context::create_radius_cursor(float radius)
+void StateBrush_Context::create_radius_cursor(float radius)
 {
-	if (radius < 1.0f || radius > 200.0f) {
+	if (radius < 1.0f || radius > 200.0f)
+	{
 		get_work_area()->set_cursor(Gdk::PENCIL);
 		return;
 	}
@@ -982,12 +1029,11 @@ StateBrush_Context::create_radius_cursor(float radius)
 	pixbuf->fill(0x00000000); // transparent
 
 	auto surface = Cairo::ImageSurface::create(
-		pixbuf->get_pixels(),
-		Cairo::FORMAT_ARGB32,
-		pixbuf->get_width(),
-		pixbuf->get_height(),
-		pixbuf->get_rowstride()
-		);
+			pixbuf->get_pixels(),
+			Cairo::FORMAT_ARGB32,
+			pixbuf->get_width(),
+			pixbuf->get_height(),
+			pixbuf->get_rowstride());
 
 	auto cr = Cairo::Context::create(surface);
 
@@ -1008,8 +1054,7 @@ StateBrush_Context::create_radius_cursor(float radius)
 	get_work_area()->set_cursor(cursor);
 }
 
-void
-StateBrush_Context::create_image_layer_dialog()
+void StateBrush_Context::create_image_layer_dialog()
 {
 	// Create dialog window
 	Gtk::Dialog dialog(_("Create Image Layer"), *App::main_window, true);
@@ -1018,7 +1063,7 @@ StateBrush_Context::create_image_layer_dialog()
 	dialog.set_default_response(Gtk::RESPONSE_OK);
 
 	// Create the layout grid
-	Gtk::Grid* layout_grid = Gtk::manage(new Gtk::Grid());
+	Gtk::Grid *layout_grid = Gtk::manage(new Gtk::Grid());
 	layout_grid->set_row_spacing(12);
 	layout_grid->set_column_spacing(12);
 	layout_grid->set_border_width(12);
@@ -1027,7 +1072,8 @@ StateBrush_Context::create_image_layer_dialog()
 	// Get default width and height from the canvas
 	auto canvas = get_canvas();
 	int canvas_width = 512, canvas_height = 512;
-	if (canvas) {
+	if (canvas)
+	{
 		canvas_width = canvas->rend_desc().get_w();
 		canvas_height = canvas->rend_desc().get_h();
 	}
@@ -1070,27 +1116,28 @@ StateBrush_Context::create_image_layer_dialog()
 	double aspect_ratio = (double)canvas_width / (double)canvas_height;
 
 	// Update aspect ratio value when toggling the link button
-	aspect_link->signal_toggled().connect([&]() {
+	aspect_link->signal_toggled().connect([&]()
+																				{
 		if (aspect_link->get_active())
-			aspect_ratio = (double)width_input->get_value() / (double)height_input->get_value();
-	});
+			aspect_ratio = (double)width_input->get_value() / (double)height_input->get_value(); });
 
 	// Automatically update height when width changes (if aspect ratio is locked)
-	width_input->signal_value_changed().connect([&]() {
+	width_input->signal_value_changed().connect([&]()
+																							{
 		if (is_updating || !aspect_link->get_active()) return;
 		is_updating = true;
 		height_input->set_value(std::max(1.0, width_input->get_value() / aspect_ratio));
-		is_updating = false;
-	});
-	height_input->signal_value_changed().connect([&]() {
+		is_updating = false; });
+	height_input->signal_value_changed().connect([&]()
+																							 {
 		if (is_updating || !aspect_link->get_active()) return;
 		is_updating = true;
 		width_input->set_value(std::max(1.0, height_input->get_value() * aspect_ratio));
-		is_updating = false;
-	});
+		is_updating = false; });
 
 	// Update width and height when preset is selected
-	preset_selector->signal_changed().connect([&]() {
+	preset_selector->signal_changed().connect([&]()
+																						{
 		std::string selected_preset = preset_selector->get_active_id();
 		if (selected_preset == "custom") {
 			width_input->set_sensitive(true);
@@ -1111,14 +1158,16 @@ StateBrush_Context::create_image_layer_dialog()
 		height_input->set_sensitive(false);
 		aspect_link->set_active(true);
 		aspect_ratio = (double)preset_width / (double)preset_height;
-		is_updating = false;
-	});
+		is_updating = false; });
 	dialog.show_all();
 
 	// Generates next unique image ID
-	auto generate_next_id = [](std::string current_id) {
-		int number = 1, digit_count = 0;
-		if (!current_id.empty() && isdigit(current_id.back())) {
+	auto generate_next_id = [](std::string current_id)
+	{
+		int number = 1;
+		size_t digit_count = 0;
+		if (!current_id.empty() && isdigit(current_id.back()))
+		{
 			while (digit_count < current_id.size() && isdigit(current_id[current_id.size() - 1 - digit_count]))
 				digit_count++;
 			std::string number_part = current_id.substr(current_id.size() - digit_count, digit_count);
@@ -1126,7 +1175,7 @@ StateBrush_Context::create_image_layer_dialog()
 			number = atoi(number_part.c_str());
 		}
 		number++;
-		const int min_digits = std::min(digit_count, 9);
+		const int min_digits = std::min(digit_count, static_cast<size_t>(9));
 		return strprintf("%s%0*d", current_id.c_str(), min_digits, number);
 	};
 
@@ -1134,44 +1183,46 @@ StateBrush_Context::create_image_layer_dialog()
 	std::string image_layer_id = settings.get_value("brush.image_id", std::string("brush image001"));
 
 	// Dialog event loop: creates image layer if user clicks OK
-	if (dialog.run() == Gtk::RESPONSE_OK) {
+	if (dialog.run() == Gtk::RESPONSE_OK)
+	{
 		int final_width = width_input->get_value_as_int();
 		int final_height = height_input->get_value_as_int();
 
 		// Group canvas actions for undo
 		synfigapp::Action::PassiveGrouper action_group(
-			get_canvas_interface()->get_instance().get(), _("Create Image Layer")
-			);
+				get_canvas_interface()->get_instance().get(), _("Create Image Layer"));
 
 		Layer_Bitmap::Handle bitmap_layer = create_bitmap_layer_above_layer(get_canvas_interface());
 
 		bitmap_layer->set_description(image_layer_id);
 		get_canvas_interface()->signal_layer_new_description()(bitmap_layer, bitmap_layer->get_description());
 
-		if (canvas) {
+		if (canvas)
+		{
 			bitmap_layer->set_param("tl", canvas->rend_desc().get_tl());
 			bitmap_layer->set_param("br", canvas->rend_desc().get_br());
 			bitmap_layer->set_param("c", int(1));
 		}
 
 		// Initialize a blank surface to the layer
-		if (final_width > 0 && final_height > 0) {
-			Surface* blank_surface = new Surface(final_width, final_height);
+		if (final_width > 0 && final_height > 0)
+		{
+			Surface *blank_surface = new Surface(final_width, final_height);
 			blank_surface->clear();
 			bitmap_layer->rendering_surface = new rendering::SurfaceResource(
-				new rendering::SurfaceSW(*blank_surface, true)
-				);
+					new rendering::SurfaceSW(*blank_surface, true));
 
-			if (bitmap_layer->get_param_list().count("filename") != 0) {
+			if (bitmap_layer->get_param_list().count("filename") != 0)
+			{
 				// generate name based on description
 				String description, filename, filename_param;
 				get_canvas_interface()
-					->get_instance()
-					->generate_new_name(
-						bitmap_layer,
-						description,
-						filename,
-						filename_param );
+						->get_instance()
+						->generate_new_name(
+								bitmap_layer,
+								description,
+								filename,
+								filename_param);
 				bitmap_layer->set_param("filename", filename_param);
 				bitmap_layer->set_description(description);
 			}
@@ -1184,30 +1235,29 @@ StateBrush_Context::create_image_layer_dialog()
 }
 
 Smach::event_result
-StateBrush_Context::event_refresh_tool_options(const Smach::event& /*x*/)
+StateBrush_Context::event_refresh_tool_options(const Smach::event & /*x*/)
 {
 	refresh_tool_options();
 	return Smach::RESULT_ACCEPT;
 }
 
-void
-StateBrush_Context::update_overlay_preview()
+void StateBrush_Context::update_overlay_preview()
 {
-	if (get_work_area() && get_work_area()->get_renderer_brush_overlay()) {
-		get_work_area()->get_renderer_brush_overlay()->set_overlay_surface(overlay_surface, tl , br);
+	if (get_work_area() && get_work_area()->get_renderer_brush_overlay())
+	{
+		get_work_area()->get_renderer_brush_overlay()->set_overlay_surface(overlay_surface, tl, br);
 	}
 }
 
-void
-StateBrush_Context::clear_overlay_preview()
+void StateBrush_Context::clear_overlay_preview()
 {
-	if (get_work_area() && get_work_area()->get_renderer_brush_overlay()) {
+	if (get_work_area() && get_work_area()->get_renderer_brush_overlay())
+	{
 		get_work_area()->get_renderer_brush_overlay()->clear_overlay();
 	}
 }
 
-void
-StateBrush_Context::draw_to(const Vector& event_pos, Real pressure)
+void StateBrush_Context::draw_to(const Vector &event_pos, Real pressure)
 {
 	if (!layer)
 		return;
@@ -1228,12 +1278,14 @@ StateBrush_Context::draw_to(const Vector& event_pos, Real pressure)
 	action->stroke.add_point({surface_x, surface_y, pressure, dtime});
 
 	bool expanded = wrapper.offset_x != 0 || wrapper.offset_y != 0 ||
-					wrapper.extra_right > 0 || wrapper.extra_bottom > 0;
-	if (expanded) {
+									wrapper.extra_right > 0 || wrapper.extra_bottom > 0;
+	if (expanded)
+	{
 		float w = br[0] - tl[0];
 		float h = br[1] - tl[1];
 
-		if (old_w > 0 && old_h > 0)	{
+		if (old_w > 0 && old_h > 0)
+		{
 			float units_per_pixel_x = w / old_w;
 			float units_per_pixel_y = h / old_h;
 			tl[0] -= wrapper.offset_x * units_per_pixel_x;
@@ -1265,8 +1317,10 @@ StateBrush_Context::find_or_create_layer()
 	// is it a switch && active layer is a bitmap ?
 	{
 		etl::handle<Layer_Switch> layer_switch = etl::handle<Layer_Switch>::cast_dynamic(selected_layer);
-		if (layer_switch) {
-			if (Layer::Handle current_layer = layer_switch->get_current_layer()) {
+		if (layer_switch)
+		{
+			if (Layer::Handle current_layer = layer_switch->get_current_layer())
+			{
 				layer = Layer_Bitmap::Handle::cast_dynamic(current_layer);
 				if (layer)
 					return layer;
@@ -1283,10 +1337,13 @@ StateBrush_Context::find_or_create_layer()
 	// generate unique name
 	String name = _("brush image");
 	int counter = 1;
-	while (true) {
+	while (true)
+	{
 		bool exists = false;
-		for (const auto& i : *canvas) {
-			if (i->get_description() == name) {
+		for (const auto &i : *canvas)
+		{
+			if (i->get_description() == name)
+			{
 				exists = true;
 				break;
 			}
@@ -1305,21 +1362,22 @@ StateBrush_Context::find_or_create_layer()
 	layer->set_param("c", int(1));
 	int width = canvas->rend_desc().get_w();
 	int height = canvas->rend_desc().get_h();
-	if (width > 0 && height > 0) {
+	if (width > 0 && height > 0)
+	{
 		Surface *initial_surface = new Surface(width, height);
 		initial_surface->clear();
 		layer->rendering_surface = new rendering::SurfaceResource(
-			new rendering::SurfaceSW(*initial_surface, true));
+				new rendering::SurfaceSW(*initial_surface, true));
 		layer->add_surface_modification_id(synfig::GUID::hasher("brush_created"));
 		// generate name based on description
 		String description, filename, filename_param;
 		get_canvas_interface()
-			->get_instance()
-			->generate_new_name(
-				layer,
-				description,
-				filename,
-				filename_param );
+				->get_instance()
+				->generate_new_name(
+						layer,
+						description,
+						filename,
+						filename_param);
 		layer->set_param("filename", filename_param);
 	}
 	canvas_view->get_selection_manager()->clear_selected_layers();
@@ -1328,22 +1386,24 @@ StateBrush_Context::find_or_create_layer()
 	return layer;
 }
 
-bool
-StateBrush_Context::build_transform_stack(
-	Canvas::Handle canvas,
-	Layer::Handle layer,
-	CanvasView::Handle canvas_view,
-	TransformStack& transform_stack )
+bool StateBrush_Context::build_transform_stack(
+		Canvas::Handle canvas,
+		Layer::Handle layer,
+		CanvasView::Handle canvas_view,
+		TransformStack &transform_stack)
 {
 	int count = 0;
-	for (const auto& i : *canvas) {
+	for (const auto &i : *canvas)
+	{
 
 		if (i == layer)
 			return true;
 
-		if (i->active()) {
+		if (i->active())
+		{
 			Transform::Handle trans(i->get_transform());
-			if (trans) {
+			if (trans)
+			{
 				transform_stack.push(trans);
 				count++;
 			}
@@ -1351,36 +1411,38 @@ StateBrush_Context::build_transform_stack(
 
 		// If this is a paste canvas layer, then we need to
 		// descend into it
-		if (Layer_PasteCanvas::Handle layer_pastecanvas = Layer_PasteCanvas::Handle::cast_dynamic(i)) {
+		if (Layer_PasteCanvas::Handle layer_pastecanvas = Layer_PasteCanvas::Handle::cast_dynamic(i))
+		{
 			transform_stack.push_back(
-				new Transform_Matrix(
-					layer_pastecanvas->get_guid(),
-					layer_pastecanvas->get_summary_transformation().get_matrix()
-					)
-				);
+					new Transform_Matrix(
+							layer_pastecanvas->get_guid(),
+							layer_pastecanvas->get_summary_transformation().get_matrix()));
 
-			if (build_transform_stack(layer_pastecanvas->get_sub_canvas(), layer, canvas_view, transform_stack)) {
+			if (build_transform_stack(layer_pastecanvas->get_sub_canvas(), layer, canvas_view, transform_stack))
+			{
 				return true;
 			}
 			transform_stack.pop();
 		}
 	}
 
-	while (count-- > 0) {
+	while (count-- > 0)
+	{
 		transform_stack.pop();
 	}
 	return false;
 }
 
 Smach::event_result
-StateBrush_Context::event_mouse_down_handler(const Smach::event& x)
+StateBrush_Context::event_mouse_down_handler(const Smach::event &x)
 {
-	const EventMouse& event(*reinterpret_cast<const EventMouse*>(&x));
+	const EventMouse &event(*reinterpret_cast<const EventMouse *>(&x));
 	if (event.button != BUTTON_LEFT)
 		return Smach::RESULT_OK;
 
 	// clear any pending overlay clear signal
-	if (clear_overlay_timer.connected()) {
+	if (clear_overlay_timer.connected())
+	{
 		clear_overlay_timer.disconnect();
 	}
 
@@ -1399,21 +1461,25 @@ StateBrush_Context::event_mouse_down_handler(const Smach::event& x)
 	action->stroke.set_undo_mode(static_cast<synfigapp::Action::LayerPaint::PaintStroke::UndoMode>(undo_mode));
 
 	transform_stack.clear();
-	if (!build_transform_stack(canvas_view->get_canvas(), layer, canvas_view, transform_stack)) {
+	if (!build_transform_stack(canvas_view->get_canvas(), layer, canvas_view, transform_stack))
+	{
 		transform_stack.clear();
 	}
 
 	// copy layer to overlay
-	if (layer->rendering_surface) {
+	if (layer->rendering_surface)
+	{
 		rendering::SurfaceResource::LockRead<rendering::SurfaceSW> lock(layer->rendering_surface);
-		if (lock && lock->get_surface().is_valid()) {
-			const Surface& src = lock->get_surface();
+		if (lock && lock->get_surface().is_valid())
+		{
+			const Surface &src = lock->get_surface();
 			overlay_surface = synfig::Surface(src.get_w(), src.get_h());
 			overlay_surface.copy(src);
 
 			// extract transformation matrix to apply transformations to cairo surface
 			Matrix transform_matrix;
-			if (!transform_stack.empty()) {
+			if (!transform_stack.empty())
+			{
 				Vector p00 = transform_stack.perform(Vector(0, 0));
 				Vector p10 = transform_stack.perform(Vector(1, 0));
 				Vector p01 = transform_stack.perform(Vector(0, 1));
@@ -1430,11 +1496,10 @@ StateBrush_Context::event_mouse_down_handler(const Smach::event& x)
 			}
 
 			canvas_view->get_work_area()->get_renderer_brush_overlay()->set_overlay_surface(
-				overlay_surface,
-				tl,
-				br,
-				transform_matrix
-				);
+					overlay_surface,
+					tl,
+					br,
+					transform_matrix);
 		}
 	}
 
@@ -1444,25 +1509,28 @@ StateBrush_Context::event_mouse_down_handler(const Smach::event& x)
 	Real r(color.get_r()), g(color.get_g()), b(color.get_b());
 	Real max_rgb = std::max(r, std::max(g, b));
 	Real min_rgb = std::min(r, std::min(g, b));
-	Real diff = max_rgb-min_rgb;
+	Real diff = max_rgb - min_rgb;
 
 	Real val = max_rgb;
 	Real sat = fabs(max_rgb) > epsilon ? 1.0 - (min_rgb / max_rgb) : 0;
-	Real hue = fabs(diff) <= epsilon ?
-			0 : max_rgb == r ?
-				60.0 * fmod ((g - b)/(diff), 6.0) : max_rgb == g ?
-					60.0 * (((b - r)/(diff))+2.0) : 60.0 * (((r - g)/(diff))+4.0);
+	Real hue = fabs(diff) <= epsilon ? 0 : max_rgb == r ? 60.0 * fmod((g - b) / (diff), 6.0)
+																		 : max_rgb == g		? 60.0 * (((b - r) / (diff)) + 2.0)
+																											: 60.0 * (((r - g) / (diff)) + 4.0);
 
-	float radius = log(synfigapp::Main::get_bline_width()/2);
+	float radius = log(synfigapp::Main::get_bline_width() / 2);
 
 	// adjust the radius based on inputs we assume that all inputs make their max effect
 	// fixes cursor/dab mismatch
 	float radius_adjustment = 0.0f;
-	for (const auto& input_entry : selected_brush_config.settings[BRUSH_RADIUS_LOGARITHMIC].inputs) {
-		if (!input_entry.mapping.empty()) {
+	for (const auto &input_entry : selected_brush_config.settings[BRUSH_RADIUS_LOGARITHMIC].inputs)
+	{
+		if (!input_entry.mapping.empty())
+		{
 			float max_effect = -1e9f;
-			for (const auto& map_point : input_entry.mapping) {
-				if (map_point.y > max_effect) {
+			for (const auto &map_point : input_entry.mapping)
+			{
+				if (map_point.y > max_effect)
+				{
 					max_effect = map_point.y;
 				}
 			}
@@ -1471,7 +1539,7 @@ StateBrush_Context::event_mouse_down_handler(const Smach::event& x)
 	}
 	float new_radius = radius - radius_adjustment;
 
-	action->stroke.brush().set_base_value(BRUSH_COLOR_H, hue/360.0);
+	action->stroke.brush().set_base_value(BRUSH_COLOR_H, hue / 360.0);
 	action->stroke.brush().set_base_value(BRUSH_COLOR_S, sat);
 	action->stroke.brush().set_base_value(BRUSH_COLOR_V, val);
 	action->stroke.brush().set_base_value(BRUSH_RADIUS_LOGARITHMIC, new_radius);
@@ -1483,9 +1551,9 @@ StateBrush_Context::event_mouse_down_handler(const Smach::event& x)
 }
 
 Smach::event_result
-StateBrush_Context::event_mouse_draw_handler(const Smach::event& x)
+StateBrush_Context::event_mouse_draw_handler(const Smach::event &x)
 {
-	const EventMouse& event(*reinterpret_cast<const EventMouse*>(&x));
+	const EventMouse &event(*reinterpret_cast<const EventMouse *>(&x));
 	if (event.button != BUTTON_LEFT || !action)
 		return Smach::RESULT_OK;
 	draw_to(event.pos, event.pressure);
@@ -1493,14 +1561,15 @@ StateBrush_Context::event_mouse_draw_handler(const Smach::event& x)
 }
 
 Smach::event_result
-StateBrush_Context::event_mouse_up_handler(const Smach::event& x)
+StateBrush_Context::event_mouse_up_handler(const Smach::event &x)
 {
-	const EventMouse& event(*reinterpret_cast<const EventMouse*>(&x));
+	const EventMouse &event(*reinterpret_cast<const EventMouse *>(&x));
 	if (event.button != BUTTON_LEFT || !action || !layer)
 		return Smach::RESULT_OK;
 
 	layer->set_active(true);
-	if (action->is_ready()) {
+	if (action->is_ready())
+	{
 		std::unique_ptr<synfig::Surface> final_surface(new synfig::Surface(std::move(overlay_surface)));
 		action->stroke.set_final_data(std::move(final_surface));
 		get_canvas_interface()->get_instance()->perform_action(action);
@@ -1511,17 +1580,17 @@ StateBrush_Context::event_mouse_up_handler(const Smach::event& x)
 	// delay to allow the layer to render
 	// todo : replace with an accurate signal
 	clear_overlay_timer = Glib::signal_timeout().connect(
-		[this]() -> bool {
-			clear_overlay_preview();
-			return false;
-		},
-		200
-		);
+			[this]() -> bool
+			{
+				clear_overlay_preview();
+				return false;
+			},
+			200);
 	return Smach::RESULT_ACCEPT;
 }
 
 Smach::event_result
-StateBrush_Context::event_stop_handler(const Smach::event& x)
+StateBrush_Context::event_stop_handler(const Smach::event &x)
 {
 	clear_overlay_preview();
 	throw &state_normal;

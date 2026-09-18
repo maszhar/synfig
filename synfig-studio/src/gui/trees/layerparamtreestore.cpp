@@ -496,7 +496,7 @@ LayerParamTreeStore::refresh()
 }
 
 void
-LayerParamTreeStore::refresh_row(Gtk::TreeModel::Row &row)
+LayerParamTreeStore::refresh_row(Gtk::TreeModel::Row &row, bool)
 {
 	if(row[model.is_toplevel])
 	{

@@ -37,6 +37,10 @@
 
 /* === M A C R O S ========================================================= */
 
+#ifdef _
+#undef _
+#endif
+
 #ifdef ENABLE_NLS
 #define _(x) dgettext("synfig",x)
 #define gettext_noop(x) x

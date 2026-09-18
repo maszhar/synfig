@@ -283,11 +283,12 @@ LayerGroupTreeStore::get_value_vfunc (const Gtk::TreeModel::iterator& iter, int 
 		}
 		else if((bool)(*iter)[model.is_group])
 		{
-			int activecount(0),total(0);
+			int activecount(0);
+			// int total(0);
 			Gtk::TreeModel::iterator child_iter(iter->children().begin());
 			for(;child_iter;++child_iter)
 			{
-				total++;
+				// total++;
 				if((*child_iter)[model.active])
 					activecount++;
 			}
