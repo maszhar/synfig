@@ -28,7 +28,7 @@
                 "/mingw64/": "C:\\msys64\\mingw64\\",
                 "/d/": "d:\\"
             }
-        }
+        },
         {
             "name": "[Linux] Debug Synfig Studio",
             "type": "cppdbg",
