@@ -558,14 +558,14 @@ ValueNode_BLine::operator()(Time t)const
 	std::vector<ListEntry>::const_iterator iter,first_iter;
 	bool first_flag(true);
 	bool rising;
-	int index(0);
+	// int index(0);
 	float next_scale(1.0f);
 
 	BLinePoint prev,first;
 	first.set_origin(100.0f);
 
 	// loop through all the list's entries
-	for(iter=list.begin();iter!=list.end();++iter,index++)
+	for(iter=list.begin();iter!=list.end();++iter)
 	{
 		// how 'on' is this vertex?
 		float amount(iter->amount_at_time(t,&rising));

@@ -82,6 +82,10 @@ target_sources(libsynfig
         "${CMAKE_CURRENT_LIST_DIR}/curve.cpp"
 )
 
+set_target_properties(libsynfig PROPERTIES
+    COMPILE_WARNING_AS_ERROR ON
+)
+
 ## these were added separately in autotools build, preserving this for now
 ## TODO: either merge with main list or create new target
 target_sources(libsynfig

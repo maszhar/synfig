@@ -71,8 +71,8 @@ Optimizer::replace_target(
 		new_task->target_surface = parent->target_surface;
 	}
 
-	int index = 0;
-	for(Task::List::iterator i = new_task->sub_tasks.begin(); i != new_task->sub_tasks.end(); ++i, ++index)
+	// int index = 0;
+	for(Task::List::iterator i = new_task->sub_tasks.begin(); i != new_task->sub_tasks.end(); ++i)
 		if (new_task != task) {
 			*i = replace_target(parent, surface, *i);
 		} else {
