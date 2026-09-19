@@ -22,4 +22,5 @@ target_sources(synfigstudio
         "${CMAKE_CURRENT_LIST_DIR}/dockdialog.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/dockdroparea.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/dockmanager.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/dock_mcp.cpp"
 )

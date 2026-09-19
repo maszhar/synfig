@@ -137,6 +137,8 @@ static const std::map<std::string, std::pair<const char*, const char*>> known_ic
 	{"info", {"info_icon", N_("Info Tool")}},
 	{"group", {"set_icon", N_("Set")}},
 
+	{"mcp", {"mcp_icon", N_("MCP Server")}},
+
 	{"duplicate", {"duplicate_icon", N_("Duplicate")}},
 	{"encapsulate", {"group_icon", N_("Group")}},
 	{"encapsulate_switch", {"layer_other_switch_icon", N_("Group into Switch")}},

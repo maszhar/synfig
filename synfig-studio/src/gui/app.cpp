@@ -101,6 +101,7 @@
 #include <gui/docks/dock_timetrack.h>
 #include <gui/docks/dock_timetrack2.h>
 #include <gui/docks/dock_toolbox.h>
+#include <gui/docks/dock_mcp.h>
 
 #include <gui/instance.h>
 #include <gui/localization.h>
@@ -250,6 +251,7 @@ static studio::Dock_Curves        *dock_curves;
 static studio::Dock_History       *dock_history;
 static studio::Dock_Info          *dock_info;
                Dock_Info     *App::dock_info_ = nullptr;
+static studio::Dock_MCP           *dock_mcp;
 static studio::Dock_Keyframes     *dock_keyframes;
 static studio::Dock_Layers        *dock_layers;
 static studio::Dock_LayerGroups   *dock_layer_groups;
@@ -1704,6 +1706,10 @@ void App::init(const synfig::String& rootpath)
 		studio_init_cb.task(_("Init Info..."));
 		dock_info = new studio::Dock_Info();
 		dock_manager->register_dockable(*dock_info);
+
+		studio_init_cb.task(_("Init MCP Server..."));
+		dock_mcp = new studio::Dock_MCP();
+		dock_manager->register_dockable(*dock_mcp);
 
 		studio_init_cb.task(_("Init Navigator..."));
 		dock_navigator = new studio::Dock_Navigator();

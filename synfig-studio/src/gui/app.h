@@ -113,6 +113,7 @@ class Dock_Info;
 class Dock_Navigator;
 class Dock_LayerGroups;
 class Dock_SoundWave;
+class Dock_MCP;
 
 class Module;
 

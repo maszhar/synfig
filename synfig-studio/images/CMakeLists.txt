@@ -179,6 +179,7 @@ set(ICONS
 	layer_transform_translate_icon
 	layer_transform_zoom_icon
 	library_icon
+	mcp_icon
 	meta_data_icon
 	navigator_icon
 	onion_skin_icon
